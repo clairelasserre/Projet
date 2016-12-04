@@ -1,59 +1,63 @@
-<html>
-    
-    <?php
+ <?php
         
         
-        require ("ClassesAssocieesBDD/Database.php");
-        require ("ClassesAssocieesBDD/Utilisateurs.php");
+    require ("/Applications/XAMPP/xamppfiles/htdocs/PasDeGaspX/ClassesAssocieesBDD/Database.php");
+    require ("/Applications/XAMPP/xamppfiles/htdocs/PasDeGaspX/ClassesAssocieesBDD/Utilisateurs.php");
 
-        $dbh = Database::connect();
+    $dbh = Database::connect();
   
+        /*Cherche si le login a déjà été utilisé ; si oui, il faut en trouver un autre : on redirige vers la page d'échec d'inscription*/
+    
+        if (Utilisateurs::getUtilisateur($dbh, $_POST['login']) != NULL) {  
+            $user =  Utilisateurs::getUtilisateur($dbh, $_POST['login']);
+            echo $user->Prenom;
+            echo'Ce login a déjà été choisi!';
+            echo'<br></br>';
+            require ("/Applications/XAMPP/xamppfiles/htdocs/PasDeGaspX/ContenuDesPages/ApresSEtreInscritAvecEchec.php");
+        }
         
-        if (Utilisateurs::getUtilisateur($dbh, $_POST['login']) != NULL) { /* Cherche si le login a déjà été utilisé ; si oui, il faut en trouver un autre*/    
+        /*Cherche si le mail a déjà été utilisé ; si oui, il faut en trouver un autre : on redirige vers la page d'échec d'inscription*/
+        elseif (Utilisateurs::emailExisted($dbh,$_POST['email'])!= NULL){
+            echo'Ce mail a déjà été choisi!';
+            echo'<br></br>';
             
-            echo'ce login est déjà choisi, veuillez en trouver un autre';
-            echo "<button type='button' class='btn btn-success' style='text-align: center; font-size: 1.5em'><a href='index.php?name=PageInscription'>Retournez à la page d inscription</a></button>";
+            require ("/Applications/XAMPP/xamppfiles/htdocs/PasDeGaspX/ContenuDesPages/ApresSEtreInscritAvecEchec.php");
 
         }
         
-        if (Utilisateurs::emailExisted($dbh,$_POST['email'])){
- 
-            echo'ce mail est déjà utilisé, veuillez en indiquer un autre';
-            echo "<button type='button' class='btn btn-success' style='text-align: center; font-size: 1.5em'><a href='index.php?name=PageInscription'>Retournez à la page d inscription</a></button>";
-        }
         
-        if(isset($_POST['link'])){
-            if (Utilisateurs::profilFbExisted($dbh,$_POST['link'])){
-            
-                echo'ce profil facebook est déjà utilisé, veuillez en indiquer un autre';
-                echo "<button type='button' class='btn btn-success' style='text-align: center; font-size: 1.5em'><a href='index.php?name=PageInscription'>Retournez à la page d inscription</a></button>";
+        
+        /* Selon que l'utilisateur ait bien voulu rentrer son profil fb ou non */
+        elseif ($_POST['link'] != NULL){
+            /* Si une telle page fb a déjà été renseignée,il faut en trouver un autre : on redirige vers la page d'échec d'inscription*/ 
+            if (Utilisateurs::profilFbExisted($dbh,$_POST['link']) != NULL){
+                echo'Ce profil fb a déjà été choisi!';
+                echo'<br></br>';
+                require ("/Applications/XAMPP/xamppfiles/htdocs/PasDeGaspX/ContenuDesPages/ApresSEtreInscritAvecEchec.php");
+
             
             }
 
             else{
-                Utilisateurs::insererUtilisateur($dbh, $_POST['login'], $_POST['mdp'], $_POST['prenom'],  $_POST['nom'], $_POST['email'], $_POST['link']) ;   
             
+            /* Sinon on inscrit l'utilisateur et on le redirige vers la page de succès de l'inscription */    
+                Utilisateurs::insererUtilisateur($dbh, $_POST['login'], $_POST['mdp'], $_POST['prenom'],  $_POST['nom'], $_POST['email'], $_POST['link'], null, 0) ;   
+                require ("/Applications/XAMPP/xamppfiles/htdocs/PasDeGaspX/ContenuDesPages/ApresSEtreInscritAvecSucces.php");
+                
             }        
         } 
+        
+        
+        /*Si tous les identifiants conviennent, on ajoute l'utilisateur et on le redirige vers la page de succès de l'inscription */
+        else{
+            Utilisateurs::insererUtilisateur($dbh, $_POST['login'], $_POST['mdp'], $_POST['prenom'],  $_POST['nom'], $_POST['email'], null, null, 0) ; 
+            require ("/Applications/XAMPP/xamppfiles/htdocs/PasDeGaspX/ContenuDesPages/ApresSEtreInscritAvecSucces.php");
+        
+        }     
             
-        Utilisateurs::insererUtilisateur($dbh, $_POST['login'], $_POST['mdp'], $_POST['prenom'],  $_POST['nom'], $_POST['email'], null) ;   
-            
-        echo 'Bravo, votre compte a été enregistré avec succès!';
         
-        $dbh = null;
-        
-        
-    ?>
 
-    
-    <br></br>
-    
-    <button type="button" class="btn btn-success" style="text-align: center; font-size: 1.5em"><a href="index.php?name=Offrir">Offrez dès maintenant!!</a></button>
-    
-    <h2>Ou bien...</h2>
-
-    <br></br>
-    
-    <button type="button" class="btn btn-success" style="text-align: center; font-size: 1.5em"><a href="index.php?name=ListeOffres">Trouver un repas près de chez vous!</a></button>   
+        
+    $dbh = null;
 
 
