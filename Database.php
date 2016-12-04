@@ -2,6 +2,7 @@
 
 class Database {
     
+/* La fonction de connection à la base de données*/
     public static function connect() {
         $dsn = 'mysql:dbname=Donnees_Utilisateurs;host=127.0.0.1';
         $user = 'root';
