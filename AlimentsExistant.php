@@ -5,7 +5,7 @@ Class AlimentsExistant {
     public $Aliment;
 
 
-    
+/* Une petite fonction qui permet de faire apparaître un scroll pour parcourir tous les aliments disponibles*/    
     public static function scrollAliment($dbh){
         
     echo'<select name = "Ali" required>'.PHP_EOL;
