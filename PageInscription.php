@@ -1,15 +1,10 @@
-
 <html>
-<head>        
-    <link href="css/bootstrap.css" rel="stylesheet">  
-    <link href="css/perso.css" rel="stylesheet">  
-
-</head>
-
-  
-    <h1>Inscris-toi!</h1> 
+     <h1>Inscris-toi!</h1> 
+ 
+    <!-- Ci-dessous, le form à compléter pour s'inscrire. 
+    Une fois validée, on est redirigée vers la page ApresSEtreInscrit. L'utilisateur sera enregistré si aucun problème n'est apparu --> 
     
-    <form action="PageInscription.php" method="post">
+    <form action="index.php?name=ApresSEtreInscrit" method="post">
     <div class="row">
         <div class="col-md-2 gris titre">login</div>
         <div class="col-md-2 gris titre"><input type="text" name="login" required/></div>
@@ -44,38 +39,12 @@
 </p>
 </form>
     
-    <?php
-        
-        if(isset($_POST['login']) && $_POST['mdp']!='' && $_POST['prenom']!='' && $_POST['nom']!='' && $_POST['email']!=''){
-        
-        require ("Database.php");
-        require ("Utilisateurs.php");
-        require ("AlimentsExistant.php");
-
-        $dbh = Database::connect();
-
-        
-
-        
-        Utilisateurs::insererUtilisateur($dbh, $_POST['login'], $_POST['mdp'], $_POST['prenom'],  $_POST['nom'], $_POST['email'], $_POST['link']) ;   
-        
-        $dbh = null;
-        }
-        
-        ?>
+    
  
    
    
-   ?>
-        <script src="js/jquery.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.js"></script>    
-    
+
+   
 </html>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
