@@ -6,7 +6,7 @@
 
         $dbh = Database::connect();
         
-        /* Si le numéro de tel a été renseigné et la description du plat*/
+        /* Si le numéro de tel a été renseigné et la description du plat aussi*/
         if(isset($_POST['NuméroDeTel']) && isset($_POST['DescriptionDuPlat'])){
             Offres::insererOffre($dbh, $_POST['Titre'], $_POST['quantite'], $_POST['Date'],$_POST['Adresse'],$_POST['CodePostal'],$_POST['NuméroDeTel'],$_POST['DescriptionDuPlat'],$_POST['Ali'],'','','','','','','','','');
         }
