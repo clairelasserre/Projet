@@ -1,4 +1,5 @@
 <?php
+/* C'est la classe associée à la bdd recensant les offres enregistrées sur le site*/
 
 Class Offres{
     
@@ -20,9 +21,9 @@ Class Offres{
     public $Aliment9;
     public $Aliment10;
     
+        /* Insérer une offre dans la base de données*/
     
     public static function insererOffre($dbh, $Titre, $Quantite, $DateLimiteDeConsommation,$AdresseDeLaRencontre,$CodePostale,$NuméroDeTel,$CommentJeLaiCuisine,$Aliment1,$Aliment2,$Aliment3,$Aliment4,$Aliment5,$Aliment6,$Aliment7,$Aliment8,$Aliment9,$Aliment10){
-        /* Insérer une offre dans la base de données*/
         
         $query ="INSERT INTO Offres VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
@@ -45,9 +46,5 @@ Class Offres{
 
 }
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.DateLimiteDeConsommation
- */
+
 
